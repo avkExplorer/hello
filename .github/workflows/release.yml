@@ -37,7 +37,7 @@ jobs:
     needs: release
     permissions:
       contents: read
-      packages: read
+      packages: write
       id-token: write
       deployments: write
     uses: avkExplorer/avk-platform/.github/workflows/approve.yml@main
