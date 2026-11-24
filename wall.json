@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "id": "hello",
+  "name": "hello (AVK pilot service)",
+  "description": "Spring Boot pilot service used to prove the AVK deployment pipeline end to end.",
+  "kind": "service",
+  "stage": "in-progress",
+  "progress": "Phase 3: app + container built locally; pipeline workflows next",
+  "stack": ["Java 21", "Spring Boot 4", "PostgreSQL", "Docker"],
+  "requires": ["java", "docker", "git"],
+  "launch": {"cmd": ["cmd", "/c", ".\\run-local.cmd"], "timeout": 600},
+  "stop": {"cmd": ["docker", "compose", "-f", "compose.local.yaml", "down"], "timeout": 120},
+  "open": "http://127.0.0.1:4820/",
+  "status": {"url": "http://127.0.0.1:4820/healthz"},
+  "docs": "README.md",
+  "notes": "Port 4820 is this app's stg port in platform.yaml. The platform (avk stg up) replaces this local run in Phase 4.",
+  "checks": [
+    {"name": "Build, tests and coverage gate", "cmd": ["cmd", "/c", ".\\check.cmd"], "timeout": 900}
+  ]
+}
