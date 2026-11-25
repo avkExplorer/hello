@@ -7,6 +7,7 @@ smoke:
 env: [SPRING_DATASOURCE_URL, SPRING_DATASOURCE_USERNAME, SPRING_DATASOURCE_PASSWORD,
       OIDC_ISSUER, OIDC_INTERNAL_ISSUER, OIDC_CLIENT_ID, OIDC_CLIENT_SECRET,   # the OIDC_* values come from `avk auth client`
       SMTP_HOST, SMTP_PORT, SMTP_SSL, SMTP_USERNAME, SMTP_PASSWORD, MAIL_FROM, SUPPORT_TO]   # the SMTP_* values come from `avk legal smtp`
+host_truststore: true   # the deployer mounts this PC's Java truststore (Norton re-signs mail TLS to Resend); see platform SECURITY.md
 migrations: {tool: flyway, command: ["java", "-jar", "/app/app.jar", "--migrate-only"]}
 build: ["cmd", "/c", ".\\check.cmd"]   # optional: local PC build that produces what the Dockerfile packages (avk stg up --build)
 
