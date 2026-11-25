@@ -43,8 +43,9 @@ class HelloApplicationTests {
 	}
 
 	@Test
-	void errorResponsesDoNotLeakDetails() {
-		given().when().get("/does-not-exist").then().statusCode(404).body(org.hamcrest.Matchers.not(containsString("Exception")));
+	void unknownPathsAnswerWithoutLeakingDetails() {
+		// Everything that is not public needs a login first, so an unknown path looks exactly like a protected one (401).
+		given().when().get("/does-not-exist").then().statusCode(401).body(org.hamcrest.Matchers.not(containsString("Exception")));
 	}
 
 }
