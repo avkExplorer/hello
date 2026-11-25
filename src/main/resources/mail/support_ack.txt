@@ -1,0 +1,10 @@
+hello
+
+Hi @@FIRST_NAME@@,
+
+Thanks for contacting us. Your request @@TICKET_ID@@ is in our queue and we will reply within 2 business days.
+
+
+--
+Questions? Reply to this email or write to support@avkaiexplorer.com.
+hello

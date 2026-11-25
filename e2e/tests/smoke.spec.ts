@@ -37,14 +37,17 @@ test('protected pages are never served without a login', async ({ request }) => 
   }
 });
 
-// Accessibility (axe-core). Reported always; it fails the run only when AXE_ENFORCE=1 (turned on in Phase 6).
-test('home page accessibility', async ({ page }, testInfo) => {
-  await page.goto('/');
-  const results = await new AxeBuilder({ page }).analyze();
-  await testInfo.attach('axe-violations', { body: JSON.stringify(results.violations, null, 2), contentType: 'application/json' });
-  if (process.env.AXE_ENFORCE === '1') {
-    expect(results.violations).toEqual([]);
-  } else if (results.violations.length > 0) {
-    console.warn(`axe: ${results.violations.length} violation(s) (not enforced yet)`);
-  }
-});
+// Accessibility gate (axe-core, WCAG 2.1 A and AA). Any serious or critical violation fails the run; lesser ones are
+// attached to the report. Covers the home page, the contact page and every policy page (the login page lives on the
+// shared login host and is checked in the platform's own browser tests).
+const PAGES = ['/', '/legal/terms.html', '/legal/privacy.html', '/legal/cookies.html', '/legal/accessibility.html', '/legal/contact.html'];
+
+for (const path of PAGES) {
+  test(`accessibility: ${path}`, async ({ page }, testInfo) => {
+    await page.goto(path);
+    const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+    await testInfo.attach('axe-violations', { body: JSON.stringify(results.violations, null, 2), contentType: 'application/json' });
+    const blocking = results.violations.filter(v => v.impact === 'serious' || v.impact === 'critical');
+    expect(blocking.map(v => `${v.id} (${v.impact}): ${v.nodes.length} element(s)`), `${path} has blocking accessibility violations`).toEqual([]);
+  });
+}

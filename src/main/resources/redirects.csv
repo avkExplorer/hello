@@ -1,0 +1,5 @@
+old,new
+# Old address,new address. One pair per line; same-site paths only. Loaded at start-up and answered with a 301.
+# Add a line whenever a page moves, so bookmarks and search results keep working.
+/privacy,/legal/privacy.html
+/terms,/legal/terms.html

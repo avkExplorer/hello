@@ -86,8 +86,11 @@ public class SecurityConfig {
 			GrantedAuthoritiesMapper roleMapper) throws Exception {
 		http.authorizeHttpRequests(requests -> requests
 			.requestMatchers("/", "/index.html", "/healthz", "/readyz", "/api/v1/ping", "/error", "/favicon.ico").permitAll()
+			.requestMatchers("/legal/**", "/.well-known/security.txt", "/contact").permitAll()    // policy pages and the contact form (Phase 6)
 			.requestMatchers("/admin", "/admin/**").hasRole("ADMIN")      // enforced here, on the server, never in the page
 			.anyRequest().authenticated());
+		// The contact form is a plain static page that cannot carry a CSRF token; it is rate-limited and bot-checked instead.
+		http.csrf(csrf -> csrf.ignoringRequestMatchers("/contact"));
 
 		ClientRegistrationRepository repository = registrations.getIfAvailable();
 		if (repository == null) {

@@ -1,0 +1,24 @@
+/* Styles for the generated legal pages and the consent box. Not legal advice; part of the draft pack. */
+:root { --bg:#ffffff; --fg:#14181f; --muted:#4a5565; --line:#d5dae1; --accent:#0b6b63; --warn-bg:#fff4cc; --warn-fg:#4a3b00; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#0f1218; --fg:#e8ebf0; --muted:#a9b2c0; --line:#2b3340; --accent:#4cc2b6; --warn-bg:#3a3000; --warn-fg:#ffe9a0; }
+}
+body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width:44rem; margin:0 auto; padding:1.5rem 1rem 3rem; }
+a { color:var(--accent); }
+.site-header { max-width:44rem; margin:0 auto; padding:1rem; font-weight:600; }
+.site-header a { text-decoration:none; }
+.draft-banner { background:var(--warn-bg); color:var(--warn-fg); padding:.6rem 1rem; text-align:center; border-bottom:1px solid var(--line); }
+mark.todo { background:var(--warn-bg); color:var(--warn-fg); padding:0 .25em; border-radius:3px; }
+table { border-collapse:collapse; width:100%; }
+th, td { border:1px solid var(--line); padding:.4rem .6rem; text-align:left; vertical-align:top; }
+caption { text-align:left; font-weight:600; padding-bottom:.3rem; }
+input, textarea { width:100%; max-width:30rem; padding:.5rem; font:inherit; color:var(--fg); background:var(--bg); border:1px solid var(--muted); border-radius:4px; box-sizing:border-box; }
+button { font:inherit; padding:.5rem 1rem; color:var(--bg); background:var(--accent); border:2px solid var(--accent); border-radius:4px; cursor:pointer; }
+.hp { position:absolute; left:-10000px; }
+.site-footer { max-width:44rem; margin:0 auto; padding:1rem; border-top:1px solid var(--line); color:var(--muted); }
+.site-footer ul { list-style:none; display:flex; flex-wrap:wrap; gap:.5rem 1rem; padding:0; margin:0 0 .5rem; }
+#avk-consent { position:fixed; left:0; right:0; bottom:0; padding:1rem; background:var(--bg); color:var(--fg); border-top:2px solid var(--accent); z-index:1000; }
+#avk-consent p { margin:0 0 .5rem; }
+#avk-consent div { display:flex; gap:.75rem; }
+@media (prefers-reduced-motion: no-preference) { #avk-consent { transition:opacity .2s; } }

@@ -1,0 +1,1 @@
+We received your message (@@TICKET_ID@@)
