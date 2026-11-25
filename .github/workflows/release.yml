@@ -1,6 +1,6 @@
 # Runs on every merge to main: repeat the gates on the merge result, build ONE signed image, prove it in the ci stack,
 # then wait for the owner's approval of `prod`. Nothing here connects to the owner's PC.
-# Follows the platform's `main` while it is built; pinned to a commit SHA once the workflows settle.
+# The platform's reusable workflows are referenced at a pinned version (a commit SHA), so a change to them reaches this app only through a pull request here.
 name: release
 
 on:
@@ -22,7 +22,7 @@ jobs:
     permissions:
       contents: read
       security-events: write
-    uses: avkExplorer/avk-platform/.github/workflows/ci.yml@main
+    uses: avkExplorer/avk-platform/.github/workflows/ci.yml@e06c5051c6cdbff8064327f1ce1eb57cfac750f3
     with:
       coverage-minimum: "0.70"
 
@@ -32,10 +32,10 @@ jobs:
       contents: read
       packages: write
       id-token: write
-    uses: avkExplorer/avk-platform/.github/workflows/release.yml@main
+    uses: avkExplorer/avk-platform/.github/workflows/release.yml@e06c5051c6cdbff8064327f1ce1eb57cfac750f3
     with:
       app-name: hello
-      expected-identity: https://github.com/avkExplorer/avk-platform/.github/workflows/release.yml@refs/heads/main
+      expected-identity: https://github.com/avkExplorer/avk-platform/.github/workflows/release.yml@e06c5051c6cdbff8064327f1ce1eb57cfac750f3
 
   approve:
     needs: release
@@ -44,7 +44,7 @@ jobs:
       packages: write
       id-token: write
       deployments: write
-    uses: avkExplorer/avk-platform/.github/workflows/approve.yml@main
+    uses: avkExplorer/avk-platform/.github/workflows/approve.yml@e06c5051c6cdbff8064327f1ce1eb57cfac750f3
     with:
       app-name: hello
       image: ${{ needs.release.outputs.image }}
