@@ -5,7 +5,7 @@
   "description": "Spring Boot pilot service used to prove the AVK deployment pipeline end to end.",
   "kind": "service",
   "stage": "in-progress",
-  "progress": "Phase 3: app + container built locally; pipeline workflows next",
+  "progress": "Pipeline proven: gates, signed image, approved release; runs in prod from Phase 4",
   "stack": ["Java 21", "Spring Boot 4", "PostgreSQL", "Docker"],
   "requires": ["java", "docker", "git"],
   "launch": {"cmd": ["cmd", "/c", ".\\run-local.cmd"], "timeout": 600},

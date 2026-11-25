@@ -6,6 +6,10 @@ name: release
 on:
   push:
     branches: [main]
+    # Documentation and Wall metadata do not change what runs, so they do not start a release that needs approval.
+    paths-ignore:
+      - "**.md"
+      - "wall.json"
 
 permissions: {}
 
