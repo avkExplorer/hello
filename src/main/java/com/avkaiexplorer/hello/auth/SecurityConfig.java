@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -83,8 +84,11 @@ public class SecurityConfig {
 	@Bean
 	@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 	SecurityFilterChain securityFilterChain(HttpSecurity http, ObjectProvider<ClientRegistrationRepository> registrations,
-			GrantedAuthoritiesMapper roleMapper) throws Exception {
+			GrantedAuthoritiesMapper roleMapper, @Value("${management.server.port:-1}") int managementPort) throws Exception {
 		http.authorizeHttpRequests(requests -> requests
+			// Metrics for Prometheus: only on the separate management port (never published, never routed by Traefik), only this endpoint.
+			.requestMatchers(request -> managementPort > 0 && request.getLocalPort() == managementPort
+					&& "/actuator/prometheus".equals(request.getRequestURI())).permitAll()
 			.requestMatchers("/", "/index.html", "/healthz", "/readyz", "/api/v1/ping", "/error", "/favicon.ico").permitAll()
 			.requestMatchers("/legal/**", "/.well-known/security.txt", "/contact").permitAll()    // policy pages and the contact form (Phase 6)
 			.requestMatchers("/admin", "/admin/**").hasRole("ADMIN")      // enforced here, on the server, never in the page
